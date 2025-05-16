@@ -13,7 +13,7 @@ export const ormconfig: any = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   entities: [path.join(__dirname, '**/*.entity{.ts,.js}')],
-  ssl: process.env.DB_SSL.toLowerCase() === 'true',
+  ssl: process.env.DB_SSL?.toLowerCase() === 'true',
   synchronize: true,
 };
 
