@@ -3,6 +3,9 @@ import { CodeRunnerDto } from './dto/code-runner.dto';
 import { TestCase } from '../shared/test-case.interface';
 import axios from 'axios';
 import { QuestionsService } from '../questions/questions.service';
+
+const JUDGE0_URL = process.env.JUDGE0_URL;
+
 @Injectable()
 export class RunnerService {
   constructor(private readonly questionsService: QuestionsService) {}
@@ -22,26 +25,23 @@ export class RunnerService {
   }
 
   async submit_and_wait(codeRunnerDto: CodeRunnerDto, testCase: TestCase) {
-    const response = await axios.post(
-      'http://34.100.255.183:2358/submissions/?wait=true',
-      {
-        source_code: codeRunnerDto.code,
-        language_id: codeRunnerDto.language_id,
-        number_of_runs: null,
-        stdin: testCase.input,
-        expected_output: testCase.output,
-        cpu_time_limit: null,
-        cpu_extra_time: null,
-        wall_time_limit: null,
-        memory_limit: null,
-        stack_limit: null,
-        max_processes_and_or_threads: null,
-        enable_per_process_and_thread_time_limit: null,
-        enable_per_process_and_thread_memory_limit: null,
-        max_file_size: null,
-        enable_network: null,
-      },
-    );
+    const response = await axios.post(`${JUDGE0_URL}/submissions/?wait=true`, {
+      source_code: codeRunnerDto.code,
+      language_id: codeRunnerDto.language_id,
+      number_of_runs: null,
+      stdin: testCase.input,
+      expected_output: testCase.output,
+      cpu_time_limit: null,
+      cpu_extra_time: null,
+      wall_time_limit: null,
+      memory_limit: null,
+      stack_limit: null,
+      max_processes_and_or_threads: null,
+      enable_per_process_and_thread_time_limit: null,
+      enable_per_process_and_thread_memory_limit: null,
+      max_file_size: null,
+      enable_network: null,
+    });
     return response.data;
   }
 
